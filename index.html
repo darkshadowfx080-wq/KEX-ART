@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HEX ZALIM - OFFICIAL APP STORE</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg1: #05050a;
+    --bg2: #0d0d18;
+    --accent: #00e5ff;
+    --accent2: #a855f7;
+    --accent3: #ff2d75;
+  }
+
+  html, body {
+    min-height: 100%;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg1);
+    color: #fff;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Animated background blobs */
+  body::before, body::after {
+    content: "";
+    position: fixed;
+    width: 650px; height: 650px;
+    border-radius: 50%;
+    filter: blur(150px);
+    opacity: 0.4;
+    z-index: 0;
+    animation: float 16s ease-in-out infinite;
+    pointer-events: none;
+  }
+  body::before {
+    background: var(--accent);
+    top: -220px; left: -220px;
+  }
+  body::after {
+    background: var(--accent2);
+    bottom: -280px; right: -220px;
+    animation-delay: -8s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(70px, 50px) scale(1.18); }
+  }
+
+  /* Subtle grid */
+  .grid-overlay {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 55px 55px;
+    z-index: 1;
+    pointer-events: none;
+    mask-image: radial-gradient(circle at 50% 35%, black, transparent 72%);
+    -webkit-mask-image: radial-gradient(circle at 50% 35%, black, transparent 72%);
+  }
+
+  /* Floating particles */
+  .particles {
+    position: fixed; inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    opacity: 0.6;
+    animation: rise linear infinite;
+  }
+  @keyframes rise {
+    0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+    20%  { opacity: 0.8; }
+    100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px 40px;
+    text-align: center;
+  }
+
+  /* Logo badge */
+  .logo-wrap {
+    position: relative;
+    margin-bottom: 32px;
+  }
+  .logo-wrap::before {
+    content: "";
+    position: absolute;
+    inset: -25px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,255,0.35), transparent 70%);
+    filter: blur(20px);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50%      { opacity: 1; transform: scale(1.15); }
+  }
+
+  .logo-ring {
+    position: relative;
+    width: 145px; height: 145px;
+    border-radius: 34px;
+    background: conic-gradient(from 0deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
+    padding: 3px;
+    animation: spin 7s linear infinite;
+    box-shadow: 0 0 55px rgba(0,229,255,0.5), 0 0 100px rgba(168,85,247,0.3);
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .logo-inner {
+    width: 100%; height: 100%;
+    border-radius: 31px;
+    background: #0a0a12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 50px;
+    font-weight: 900;
+  }
+  .logo-inner span {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: spin 7s linear infinite reverse;
+  }
+
+  /* Badge above title */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px;
+    border-radius: 100px;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.3);
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+  }
+  .badge .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    animation: blink 1.5s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+  }
+
+  h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(30px, 7vw, 58px);
+    font-weight: 900;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    background: linear-gradient(90deg, #fff 15%, var(--accent) 50%, var(--accent2) 85%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shine 5s linear infinite;
+    margin-bottom: 12px;
+  }
+  @keyframes shine { to { background-position: 200% center; } }
+
+  .subtitle {
+    font-size: clamp(11px, 2.5vw, 14px);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 26px;
+    font-weight: 500;
+  }
+
+  .tagline {
+    max-width: 540px;
+    font-size: 15px;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.75;
+    margin: 0 auto 44px;
+  }
+  .tagline strong {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+  }
+
+  /* Download button */
+  .btn-download {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 48px;
+    border-radius: 18px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: #05050a;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    box-shadow:
+      0 12px 45px rgba(0,229,255,0.45),
+      0 0 0 1px rgba(255,255,255,0.15) inset,
+      0 0 60px rgba(168,85,247,0.35);
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+    cursor: pointer;
+    border: none;
+    isolation: isolate;
+  }
+
+  .btn-download::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.6) 50%, transparent 70%);
+    transform: translateX(-130%);
+    transition: transform 0.8s ease;
+    z-index: 1;
+  }
+  .btn-download:hover::before { transform: translateX(130%); }
+
+  .btn-download::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
+    background-size: 300% 300%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.35s;
+    animation: gradientMove 3s linear infinite;
+  }
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+
+  .btn-download:hover {
+    transform: translateY(-5px) scale(1.04);
+    box-shadow:
+      0 22px 65px rgba(0,229,255,0.65),
+      0 0 90px rgba(168,85,247,0.6);
+  }
+  .btn-download:hover::after { opacity: 1; }
+
+  .btn-download:active {
+    transform: translateY(-2px) scale(0.99);
+  }
+
+  .btn-download svg {
+    transition: transform 0.3s;
+  }
+  .btn-download:hover svg {
+    transform: translateY(3px);
+  }
+
+  /* Stats row */
+  .stats {
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 52px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(14px);
+    padding: 6px;
+    max-width: 580px;
+    width: 100%;
+  }
+  .stat {
+    flex: 1;
+    min-width: 110px;
+    padding: 18px 14px;
+    text-align: center;
+    position: relative;
+  }
+  .stat:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0; top: 22%;
+    height: 56%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.15), transparent);
+  }
+  .stat .val {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+  }
+  .stat .lbl {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+  }
+
+  /* Footer */
+  .footer {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 26px 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .footer span {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+  }
+
+  @media (max-width: 520px) {
+    .logo-ring { width: 110px; height: 110px; border-radius: 26px; }
+    .logo-inner { font-size: 38px; border-radius: 23px; }
+    .subtitle { letter-spacing: 4px; }
+    .btn-download { padding: 18px 34px; font-size: 14px; letter-spacing: 1.5px; width: 100%; justify-content: center; }
+    .stats { gap: 4px; }
+    .stat { padding: 14px 8px; min-width: 90px; }
+    .stat .val { font-size: 15px; }
+    .stat .lbl { font-size: 9px; letter-spacing: 1px; }
+    .tagline { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="grid-overlay"></div>
+
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<div class="container">
+  <div class="logo-wrap">
+    <div class="logo-ring">
+      <div class="logo-inner"><span>KEX</span></div>
+    </div>
+  </div>
+
+  <div class="badge">
+    <span class="dot"></span>
+    Official App Store
+  </div>
+
+  <h1>HEX ZALIM</h1>
+  <p class="subtitle">Premium Android Experience</p>
+
+  <p class="tagline">
+    KEX ART PRANK APP CRATED BY ZALIM<br>
+    DOWNLOAD THE OFFICIAL <strong>KEX ART</strong> APP.
+  </p>
+
+  <a class="btn-download" id="downloadBtn"
+     href="https://github.com/darkshadowfx080-wq/KEX-ART/releases/download/v1.0/KEXART.apk"
+     download="ZALIM.apk">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    DOWNLOAD NOW
+  </a>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="val">v1.0</div>
+      <div class="lbl">Version</div>
+    </div>
+    <div class="stat">
+      <div class="val">Android</div>
+      <div class="lbl">Platform</div>
+    </div>
+    <div class="stat">
+      <div class="val">FREE</div>
+      <div class="lbl">Price</div>
+    </div>
+    <div class="stat">
+      <div class="val">APK</div>
+      <div class="lbl">Format</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  &copy; 2025 <span>HEX ZALIM</span> &nbsp;•&nbsp; All Rights Reserved
+</div>
+
+<script>
+  // Force download (reliable across browsers)
+  document.getElementById("downloadBtn").addEventListener("click", function(e) {
+    e.preventDefault();
+    const url = this.href;
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "KEXART.apk";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+
+  // Generate floating particles
+  const particlesBox = document.getElementById("particles");
+  const colors = ["#00e5ff", "#a855f7", "#ff2d75"];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.boxShadow = `0 0 10px ${p.style.background}`;
+    p.style.animationDuration = (7 + Math.random() * 10) + "s";
+    p.style.animationDelay = (Math.random() * 10) + "s";
+    p.style.width = p.style.height = (2 + Math.random() * 3) + "px";
+    particlesBox.appendChild(p);
+  }
+</script>
+
+</body>
+</html>
